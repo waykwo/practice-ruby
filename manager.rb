@@ -21,6 +21,11 @@ class Employee
   def give_annual_raise
     @salary = 1.05 * @salary
   end
+
+  def fire_employee
+    @active = false
+  end
+
 end
 
 employee1 = Employee.new({first_name: "Majora", last_name: "Carter", salary: 80000, active: true})
@@ -39,8 +44,26 @@ class Manager < Employee
     # use email sending library...
     puts "Email sent!"
   end
+
+  def give_all_raises
+    @employees.each do |employee|
+      # pp employee
+      employee.give_annual_raise
+      # pp employee
+    end
+  end
+
+  def fire_all_employees
+    @employees.each do |employee|
+      employee.fire_employee
+      # pp employee
+    end
+  end
+
 end
 
 manager = Manager.new(first_name: "Saron", last_name: "Yitbarek", salary: 100000, active: true, employees: [employee1, employee2])
 manager.print_info
 manager.send_report
+manager.give_all_raises
+manager.fire_all_employees
