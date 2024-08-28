@@ -56,6 +56,7 @@ class Manager < Employee
   def fire_all_employees
     @employees.each do |employee|
       employee.fire_employee
+      # or you can use employee.active = false
       # pp employee
     end
   end
