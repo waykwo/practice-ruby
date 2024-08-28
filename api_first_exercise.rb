@@ -9,10 +9,26 @@
 # Demo:
 
 require "http"
+require "json"
 
-response = HTTP.get("https://data.cityofchicago.org/resource/xzkq-xp2w.json")
+# === HTTP request, write to a file
+# response = HTTP.get("https://data.cityofchicago.org/resource/xzkq-xp2w.json")
 
-employee_data = response.parse
+# # Cache response to json file
+# File.open("employee_data.json", "w") do |file|
+#   file.write(response)
+# end
+
+# Parse HTTP response
+# employee_data = response.parse
+# === End HTTP request
+
+# Read json
+cached = File.read("employee_data.json")
+# pp cached
+
+employee_data = JSON.parse(cached)
+pp employee_data
 
 # pp employee_data.length
 pp employee_data[0]
