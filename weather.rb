@@ -13,12 +13,8 @@ require "http"
 require_relative "cache_http_request"
 
 api_key = ENV['OPEN_WEATHER_API_KEY']
-lat = 40.785091
-lng = -73.968285
-weather_url = "https://api.openweathermap.org/data/2.5/weather?lat=#{lat}&lon=#{lng}&appid=#{api_key}"
 # weather_url = "https://api.openweathermap.org/data/2.5/weather?lat=40.785091&lon=-73.968285&appid=#{api_key}"
-# geo_url = "http://api.openweathermap.org/geo/1.0/direct?q=#{city_name},#{state_code},#{country_code}&limit=#{limit}&appid=#{api_key}"
-file_name = "weather_data"
+# file_name = "weather_data"
 
 # http_get_json_write_to_file(url, file_name)
 
@@ -29,8 +25,31 @@ file_name = "weather_data"
 
 # pp cache_http_request.response.parse
 # 
-response = HTTP.get(weather_url)
-weather_data = response.parse
+
+# Geo Lookup
+puts "Please enter city:"
+city_name = gets.chomp
+state_code = "NY"
+country_code = "US"
+limit = 100
+geo_url = "http://api.openweathermap.org/geo/1.0/direct?q=#{city_name},#{state_code},#{country_code}&limit=#{limit}&appid=#{api_key}"
+
+city_response = HTTP.get(geo_url)
+geo_data = city_response.parse
+
+p geo_data
+p geo_data[0]["lat"]
+p geo_data[0]["lon"]
+
+# Weather lookup
+# lat = 40.785091
+# lng = -73.968285
+lat = geo_data[0]["lat"]
+lng = geo_data[0]["lon"]
+weather_url = "https://api.openweathermap.org/data/2.5/weather?lat=#{lat}&lon=#{lng}&appid=#{api_key}"
+
+weather_response = HTTP.get(weather_url)
+weather_data = weather_response.parse
 
 p weather_data.keys
 
